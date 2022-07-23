@@ -1,4 +1,4 @@
-# Currency Converter
+# Currency Converter I18N
 ### Esta é uma simples API que converte valores monetários, apenas para demonstrar o uso de I18N e L18N utilizando Node.js, Express, TypeScript e Globalize.js. 
 
 
