@@ -88,14 +88,14 @@ export default class ConvertController extends BaseController {
 
             //@ts-ignore
             const to = Globalize.currencyFormatter(query.to, { style: "name" })(parseInt(currencyValue));
-            
-            const message = Globalize.messageFormatter( "CURRENCY_MESSAGE" )({
+
+            const message = Globalize.messageFormatter("CURRENCY_MESSAGE")({
               date,
               from,
               to
             });;
 
-            return res.status(OK).send(message);
+            return res.status(OK).send({ message });
           }
         }
       }
