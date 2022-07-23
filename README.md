@@ -29,14 +29,38 @@ npm run build
 ```
 ### Rotas
 Exemplo de uso:
+* Valores fracionários ainda não tem suporte: 
+
 ```sh            
 curl --location --request GET 'http://localhost:8989/api/convert?from=EUR&to=BRL&amount=160&locale=pt'
 ```
-* Valores fracionários ainda não tem suporte: 
-
 Response:
 ```
  {"message": "Hoje (23/07/2022), a quantidade de 160,00 Euros é igual a 894,00 Reais brasileiros" }
+```
+
+```sh            
+curl --location --request GET 'http://localhost:8989/api/convert?from=USD&to=JPY&amount=69&locale=en'
+```
+Response:
+```
+{"message":"Today (7/23/2022), the amount of 69.00 US dollars is equal to 9,392 Japanese yen"}
+```
+
+Erros:
+```sh            
+curl --location --request GET 'http://localhost:8989/api/convert?from=wrong&to=JPY&amount=69&locale=en'
+```
+Response:
+```
+ Errors occurred while converting currency. Please try again later.
+```
+```sh            
+curl --location --request GET 'http://localhost:8989/api/convert?to=JPY&amount=69&locale=pt'
+```
+Response:
+```
+O argumento 'from' é obrigatório e está faltando
 ```
 
 ### Variáveis de ambiente
