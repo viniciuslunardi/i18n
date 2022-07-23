@@ -1,21 +1,22 @@
 {
     "pt": {
-         "CURRENCY_MESSAGE": {
-
-         },
-         "ERROR_MESSAGES": {
-             "NO_TO_ARG": {
-
-             },
-             "NO_FROM_ARG": {
-
-             },
-             "NO_AMOUNT_ARG": {
-
-             }
-         }   
+        "CURRENCY_MESSAGE": "Hoje ({date}), a quantidade de {from} é igual a {to}",
+        "ERROR_MESSAGES": {
+            "NO_TO_ARG": "O argumento 'to' é obrigatório e está faltando",
+            "NO_FROM_ARG": "O argumento 'from' é obrigatório e está faltando",
+            "NO_AMOUNT_ARG": "O argumento 'amount' é obrigatório e está faltando",
+            "CURRENCY_SERVICE_ERROR": "O serviço conversor de moeda está temporariamente indisponível",
+            "GENERIC_ERROR_MESSAGE": "Ocorreram erros ao converter a moeda. Tente novamente mais tarde."
+        }
     },
     "en": {
-
+        "CURRENCY_MESSAGE": "Today ({date}), the amount of {from} is equal to {to}",
+        "ERROR_MESSAGES": {
+            "NO_TO_ARG": "The 'to' argument is required and is missing",
+            "NO_FROM_ARG": "The 'from' argument is required and is missing",
+            "NO_AMOUNT_ARG": "The 'amount' argument is required and is missing",
+            "CURRENCY_SERVICE_ERROR": "The currency converter service is temporarily unavailable",
+            "GENERIC_ERROR_MESSAGE": "Errors occurred while converting currency. Please try again later."
+        }
     }
 }

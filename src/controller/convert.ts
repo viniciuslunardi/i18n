@@ -1,15 +1,21 @@
 import { UNPROCESSABLE_ENTITY, OK, INTERNAL_SERVER_ERROR } from 'http-status';
 import { Response, Request, Router } from 'express';
+import * as Globalize from 'globalize';
+
 import * as httpUtil from '../util/request';
-
-
+import messages from '../messages/messages.json';
 import BaseController from './baseController';
+
+Globalize.load(require("cldr-data").entireSupplemental());
+Globalize.load(require("cldr-data").entireMainFor("en", "pt"));
+Globalize.loadTimeZone(require("iana-tz-data"));
+Globalize.loadMessages(messages);
 
 export default class ConvertController extends BaseController {
   private name = 'convert';
   private url = 'https://currency-converter5.p.rapidapi.com/currency/convert';
   private defaultHeaders = {
-    'X-RapidAPI-Key': '324aa7e4b2mshd6be44983511ae6p11540fjsn060abd1c8f7f',
+    'X-RapidAPI-Key': process.env.API_KEY as string,
     'X-RapidAPI-Host': 'currency-converter5.p.rapidapi.com'
   }
 
@@ -28,35 +34,21 @@ export default class ConvertController extends BaseController {
   }
 
 
-  // const options = {
-  //   method: 'GET',
-  //   url: 'https://currency-converter5.p.rapidapi.com/currency/convert',
-  //   params: {format: 'json', from: 'AUD', to: 'CAD', amount: '1'},
-  //   headers: {
-  //     'X-RapidAPI-Key': '324aa7e4b2mshd6be44983511ae6p11540fjsn060abd1c8f7f',
-  //     'X-RapidAPI-Host': 'currency-converter5.p.rapidapi.com'
-  //   }
-  // };
-
-  // axios.request(options).then(function (response) {
-  // 	console.log(response.data);
-  // }).catch(function (error) {
-  // 	console.error(error);
-  // });
-
   async convertCurrency(req: Request, res: Response): Promise<Response> {
-    console.log(req.query);
     const { query } = req;
 
+    const locale = query.locale || process.env.DEFAULT_LOCALE || 'pt';
+    //@ts-ignore
+    Globalize.locale(locale);
+
     if (!query.from) {
-      return res.status(UNPROCESSABLE_ENTITY).send('MISSING FROM ARGUMENT:' + this.getName());
+      return res.status(UNPROCESSABLE_ENTITY).send(Globalize.formatMessage('ERROR_MESSAGES/NO_FROM_ARG'));
     } else if (!query.to) {
-      return res.status(UNPROCESSABLE_ENTITY).send('MISSING TO ARGUMENT:' + this.getName());
+      return res.status(UNPROCESSABLE_ENTITY).send(Globalize.formatMessage('ERROR_MESSAGES/NO_TO_ARG'));
     } else if (!query.amount) {
-      return res.status(UNPROCESSABLE_ENTITY).send('MISSING AMOUNT ARGUMENT:' + this.getName());
+      return res.status(UNPROCESSABLE_ENTITY).send(Globalize.formatMessage('ERROR_MESSAGES/NO_AMOUNT_ARG'));
     }
 
-    const locale = query.locale || process.env.DEFAULT_LOCALE;
 
     try {
       const options = {
@@ -70,6 +62,7 @@ export default class ConvertController extends BaseController {
 
       const response = await this.request.get<any>(`${this.url}`, options);
 
+
       if (response.status === 200) {
         const { data } = response;
 
@@ -78,17 +71,31 @@ export default class ConvertController extends BaseController {
           //@ts-ignore
           const currencyValue = rates[query.to].rate_for_amount;
 
+
           if (currencyValue) {
-            const message = `On day: ${new Date}, ${query.from} ${query.amount} is equal to ${query.to} ${currencyValue}`;
+            const date = Globalize.formatDate(new Date());
+
+            //@ts-ignore
+            const from = Globalize.currencyFormatter(query.from, { style: "name" })(parseInt(query.amount));
+
+            //@ts-ignore
+            const to = Globalize.currencyFormatter(query.to, { style: "name" })(parseInt(currencyValue));
+            
+            const message = Globalize.messageFormatter( "CURRENCY_MESSAGE" )({
+              date,
+              from,
+              to
+            });;
+
             return res.status(OK).send(message);
           }
         }
       }
 
-      return res.status(INTERNAL_SERVER_ERROR).send('ERROR ON CURRENCY SERVICE');
+      return res.status(INTERNAL_SERVER_ERROR).send(Globalize.formatMessage('ERROR_MESSAGES/CURRENCY_SERVICE_ERROR'));
     } catch (err) {
       console.error(err);
-      return res.status(INTERNAL_SERVER_ERROR).send('ERROR:' + err);
+      return res.status(INTERNAL_SERVER_ERROR).send(Globalize.formatMessage('ERROR_MESSAGES/GENERIC_ERROR_MESSAGE'));
     }
   }
 }
