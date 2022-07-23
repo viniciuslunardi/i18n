@@ -1,0 +1,17 @@
+{
+  "name": "i18n",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cldr-data": "^36.0.1",
+    "globalize": "^1.7.0",
+    "iana-tz-data": "^2019.1.0"
+  }
+}
