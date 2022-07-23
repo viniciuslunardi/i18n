@@ -1,0 +1,21 @@
+{
+    "pt": {
+         "CURRENCY_MESSAGE": {
+
+         },
+         "ERROR_MESSAGES": {
+             "NO_TO_ARG": {
+
+             },
+             "NO_FROM_ARG": {
+
+             },
+             "NO_AMOUNT_ARG": {
+
+             }
+         }   
+    },
+    "en": {
+
+    }
+}
