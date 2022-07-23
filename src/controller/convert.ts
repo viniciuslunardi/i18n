@@ -6,6 +6,8 @@ import * as httpUtil from '../util/request';
 import messages from '../messages/messages.json';
 import BaseController from './baseController';
 
+const bundles = ['en', 'pt'];
+
 Globalize.load(require("cldr-data").entireSupplemental());
 Globalize.load(require("cldr-data").entireMainFor("en", "pt"));
 Globalize.loadTimeZone(require("iana-tz-data"));
@@ -38,6 +40,12 @@ export default class ConvertController extends BaseController {
     const { query } = req;
 
     const locale = query.locale || process.env.DEFAULT_LOCALE || 'pt';
+
+    //@ts-ignore
+    if (!bundles.includes(locale)) {
+      return res.status(UNPROCESSABLE_ENTITY).send(Globalize.formatMessage('ERROR_MESSAGES/MISSING_BUNDLE'));
+    }
+
     //@ts-ignore
     Globalize.locale(locale);
 

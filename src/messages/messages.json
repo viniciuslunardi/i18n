@@ -5,6 +5,7 @@
             "NO_TO_ARG": "O argumento 'to' é obrigatório e está faltando",
             "NO_FROM_ARG": "O argumento 'from' é obrigatório e está faltando",
             "NO_AMOUNT_ARG": "O argumento 'amount' é obrigatório e está faltando",
+            "MISSING_BUNDLE": "Nós ainda não temos suporte a este idioma. Por favor, tente em ingles ou português.",
             "CURRENCY_SERVICE_ERROR": "O serviço conversor de moeda está temporariamente indisponível",
             "GENERIC_ERROR_MESSAGE": "Ocorreram erros ao converter a moeda. Tente novamente mais tarde."
         }
@@ -15,6 +16,7 @@
             "NO_TO_ARG": "The 'to' argument is required and is missing",
             "NO_FROM_ARG": "The 'from' argument is required and is missing",
             "NO_AMOUNT_ARG": "The 'amount' argument is required and is missing",
+            "MISSING_BUNDLE": "We do not yet support this language. Please try in English or Portuguese.",
             "CURRENCY_SERVICE_ERROR": "The currency converter service is temporarily unavailable",
             "GENERIC_ERROR_MESSAGE": "Errors occurred while converting currency. Please try again later."
         }
